@@ -1,1 +1,237 @@
-123
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" href="./images/favicon.ico" type="image/x-icon"/>
+  <title>圖像生成/檢測器</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, min-scale=1, max-scale=1, shrink-to-fit=no">
+
+  <!-- CSS only -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <!-- JS, Popper.js, and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+  <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/my_css.css">
+</head>
+<body id="page-top">
+
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background:rgba(255,255,255,0.3);">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top" style="font-family:'Merriweather';">首頁</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" style="font-size:24px;" href="#section_algorithm">原理</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" style="font-size:24px;" href="#embed_image">嵌入浮水印</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" style="font-size:24px;" href="#detect_image">檢測圖像</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header>
+    <div class="overlay"></div>
+    <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+      <source src="./videos/bg.mp4" type="video/mp4">
+    </video>
+    <div class="container h-100">
+      <div class="d-flex h-100 text-center align-items-center">
+        <div class="w-100 text-white">
+          <h1 class="display-4">基於灰階值不變的圖像驗證應用</h1>
+          <!-- <p class="lead mt-4 mb-0">這是個圖片檢測網頁。您可以把讓圖片嵌入浮水印，或者是驗證圖片是否有遭竄改</p>
+          <p class="lead mt-4 mb-0 text-right">簡介</p> -->
+          <button type="button" class="btn btn-outline-light mt-4" data-toggle="modal" data-target="#exampleModal">簡介</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">專案介紹</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          本專案可透過特定演算法，將原始圖像轉換為嵌入驗證碼過後的標記圖像。並且可以保證原始圖像所形成的灰階圖像可與標記圖像形成的灰階圖像完全相同。此外，在進行檢測標記圖像時，也可以精確至依像素為單位來檢測標記圖像中的竄改區域。
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">關閉視窗</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="py-5 algorithm-section" id="section_algorithm">
+    <div class="bg"></div>
+    <div class="container">
+        <div class="row justify-content-md-center align-items-center" style="min-height:90vh;">
+          <h1 class="display-2 h1">原理</h1>
+      </div>
+  </section>
+
+  <section class="py-5 block-algorithm">
+    <div class="container-fluid" style="max-width:90vw;">
+      <div id="div_algorithm_explain" class="col-md mx-auto carousel slide" data-ride="carousel" style="text-align: justify;">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="./images/0004.jpg" style="min-width:100%;max-width:100%;">
+          </div>
+          <div class="carousel-item" >
+            <img src="./images/0005.jpg" style="min-width:100%;max-width:100%;">
+          </div>
+          <div class="carousel-item">
+            <img src="./images/0006.jpg" style="min-width:100%;max-width:100%;">
+          </div>
+          <div class="carousel-item">
+            <img src="./images/0007.jpg" style="min-width:100%;max-width:100%;">
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#div_algorithm_explain" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#div_algorithm_explain" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 embed-section" id="embed_image">
+    <div class="bg"></div>
+    <div class="container">
+        <div class="row justify-content-md-center align-items-center" style="min-height:80vh;">
+          <h1 class="display-2 h1">嵌入浮水印</h1>
+          <div class="custom-file">
+            <input type="file" accept="image/*" class="custom-file-input" id="input_cover_image_button">
+            <label class="custom-file-label" for="inputGoupFile04" style="color: rgba(0,0,0,0.3) !important;">Choose file</label>
+          </div>
+      </div>
+  </section>
+
+  <section class="py-5 block-embed">
+    <div class="container" id="embed_main_div">
+      <div class="row">
+        <div class="col-sm text-center">
+          原始圖像
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm text-center">
+          標記圖像<span id="embed_convert_progress" style="font-family:'Courier New';"></span>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-sm text-center py-4">
+          <img class="rounded" id="cover_image_frame" src="./images/question_mark.jpg" style="max-width:100%;opacity:0.3;"/>
+        </div>
+        <div class="col-sm-1 border">
+          <img class="rounded" id="stego_embed_frame" style="opacity:0;"/>
+        </div>
+        <div class="col-sm text-center py-4">
+          <img class="rounded" id="marked_image_frame" src="./images/question_mark.jpg" style="max-width:100%;opacity:0.3;"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm text-center">
+          <button id="embed_convert" type="button" class="btn btn-outline-secondary" disabled="disabled">轉換</button>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm text-center">
+          <a id="embed_download" href="">
+            <button type="button" class="btn btn-outline-secondary" disabled="disabled">下載</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 detect-section" id="detect_image">
+    <div class="bg"></div>
+    <div class="container">
+        <div class="row justify-content-md-center align-items-center" style="min-height:80vh;">
+          <h1 class="display-2 h1">檢測圖像</h1>
+          <div class="custom-file">
+            <input type="file" accept="image/*" class="custom-file-input" id="input_detect_image_button"/>
+            <label class="custom-file-label" for="inputGoupFile04" style="color: rgba(0,0,0,0.3) !important;">Choose file</label>
+          </div>
+      </div>
+  </section>
+
+  <section class="py-5 block-detect">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm text-center">
+          待檢測圖像
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm text-center">
+          檢測結果<span id="detect_progress" style="font-family:'Courier New';"></span>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-sm text-center">
+          <img class="border rounded" id="detect_image_frame" src="./images/question_mark.jpg" style="max-width:100%;opacity: 0.3;"/>
+        </div>
+        <div class="col-sm-1" id="stego_detect_frame"></div>
+        <div class="col-sm text-center">
+          <img class="rounded" id="detect_result_frame" src="./images/question_mark.jpg" style="max-width:100%;opacity: 0.3;"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm text-center">
+          <button id="detect_it" type="button" class="btn btn-outline-secondary" disabled="disabled">檢查</button>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm text-center">
+          <a id="detect_download" href="">
+            <button type="button" class="btn btn-outline-secondary" disabled="disabled">下載</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <footer class="py-2">
+    <div class="container" style="font-family:'Times new roman'">
+      <p>Copyright &copy; 2021 Fonu. All Rights Reserved.</p>
+    </div>
+  </footer>
+</div>
+</body>
+<script src="./js/main.js"></script>
+<script src="./js/function_set.js"></script>
+<script src="./js/MD5.js"></script>
+
+<script src="./js/jquery.easing.js"></script>
+<script>
+  // navbar slide effect
+  $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function() {
+    if(location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+      if(target.length) {
+        $('html, body').animate({
+          scrollTop: (target.offset().top + 2)
+        }, 1000, "easeInOutExpo");
+        return false;
+      }
+    }
+  });
+</script>
+</html>
